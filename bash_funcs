@@ -1,0 +1,89 @@
+#!/usr/bin/bash
+# for user defined functions
+
+# shellcheck disable=SC2034
+BASHTRUE=0
+BASHFALSE=1
+
+# Fonts Style
+FONTRESET="\033[0m"
+FONTNORMAL="0"
+FONTBOLD="1"
+FONTITALIC="3"
+FONTUNDERLINE="4"
+FONTBLINK="5"
+FONTINVERT="7"
+FONTSTRIKE="9"
+
+# Font Color
+ONLYRED="31"
+ONLYGREEN="32"
+ONLYYELLOW="33"
+ONLYBLUE="34"
+ONLYPURPLE="35"
+ONLYCYAN="36"
+ONLYWHITE="37"
+
+function AssembleFont() {
+  # if there's only one argument
+  if [ $# -eq 1 ]; then
+    printf "\033[%sm" "$1"
+  else
+    if [ $# -eq 2 ]; then
+      printf "\033[%s;%sm" "$1" "$2"
+    fi
+  fi
+}
+
+function KEYBASHINFO() {
+  echo -e "$(AssembleFont $ONLYGREEN)[INFO]($(date +'%H:%M:%S'))  $(AssembleFont $FONTBOLD $ONLYGREEN)$1"
+}
+
+function KEYBASHWARN() {
+  echo -e "$(AssembleFont $ONLYYELLOW)[WARN]($(date +'%H:%M:%S'))  $(AssembleFont $FONTBOLD $ONLYYELLOW)$1"
+}
+
+function KEYBASHERROR() {
+  echo -e "$(AssembleFont $ONLYRED)[ERROR]($(date +'%H:%M:%S'))  $(AssembleFont $FONTBOLD $ONLYRED)$1"
+}
+
+function BASHINFO() {
+  echo -e "    $(AssembleFont $ONLYGREEN)I ($(date +'%H:%M:%S'))  $1"
+}
+
+function BASHWARN() {
+  echo -e "    $(AssembleFont $ONLYYELLOW)W ($(date +'%H:%M:%S'))  $1"
+}
+
+function BASHERROR() {
+  echo -e "    $(AssembleFont $ONLYRED)E ($(date +'%H:%M:%S'))  $1"
+}
+
+function flush() {
+  # shellcheck disable=SC1090
+  source ~/.bashrc
+  conda deactivate
+  KEYBASHINFO "Flushed bash resource!"
+}
+
+function deconda() {
+  conda deactivate
+  KEYBASHINFO "Conda deactivated!"
+}
+
+function vpn() {
+  KEYBASHINFO "Starting clash..."
+  ~/.clash/start_clash.sh
+}
+
+function listen() {
+  export http_proxy=http://127.0.0.1:7890
+  export https_proxy=http://127.0.0.1:7890
+  KEYBASHINFO "Start to listen to port 7890."
+}
+
+function unlisten() {
+  unset http_proxy
+  unset https_proxy
+  KEYBASHINFO "Stop listening to port 7890."
+}
