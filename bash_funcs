@@ -65,25 +65,3 @@ function flush() {
   conda deactivate
   KEYBASHINFO "Flushed bash resource!"
 }
-
-function deconda() {
-  conda deactivate
-  KEYBASHINFO "Conda deactivated!"
-}
-
-function vpn() {
-  KEYBASHINFO "Starting clash..."
-  ~/.clash/start_clash.sh
-}
-
-function listen() {
-  export http_proxy=http://127.0.0.1:7890
-  export https_proxy=http://127.0.0.1:7890
-  KEYBASHINFO "Start to listen to port 7890."
-}
-
-function unlisten() {
-  unset http_proxy
-  unset https_proxy
-  KEYBASHINFO "Stop listening to port 7890."
-}
